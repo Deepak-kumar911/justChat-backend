@@ -35,7 +35,17 @@ app.use("/api/conversation",conversation);
 app.use("/api/message",message);
 
 const server = http.createServer(app);
-const io = new Server(server,{cors: {origin: "*",}
+const io = new Server(server,{cors: {origin: ["*"],
+ handlePreflightRequest:(req,res)=>{
+  res.writeHead(200,{
+    "Access-Control-Allow-Origin":"*",
+    "Access-Control-Allow-Method":"GET,POST,DELETE,PUT",
+    "Access-Control-Allow-Headers":"my-custom-header",
+    "Access-Control-Allow-Credentials":true
+  });
+  res.end()
+ }
+}
 })
 
 let users = [];
