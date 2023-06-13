@@ -26,19 +26,16 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cors())
 app.use(express.urlencoded({extended:true}))
-app.use(helmet());
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(morgan("common"));
+// app.use(helmet());
+// app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+// app.use(morgan("common"));
 app.use("/api/user",user);
 app.use("/api/auth",auth);
 app.use("/api/conversation",conversation);
 app.use("/api/message",message);
 
 const server = http.createServer(app);
-const io = new Server(server,{
-    cors:{
-        origin:"*"
-    }
+const io = new Server(server,{cors: {origin: "*",}
 })
 
 let users = [];
