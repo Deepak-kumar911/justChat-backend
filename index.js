@@ -22,9 +22,9 @@ mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser:true,useUnifiedTopolo
 
 //middleware
 app.use(express.static('public'));
-app.use('/upload',express.static('upload'));
+// app.use('/upload',express.static('upload'));
 app.use(express.json());
-app.use(cors({origin:'https://just-chat-frontend.vercel.app'}))
+app.use(cors())
 app.use(express.urlencoded({extended:true}))
 app.use(helmet());
 app.use(morgan("common"));
@@ -36,7 +36,7 @@ app.use("/api/message",message);
 const server = http.createServer(app);
 const io = new Server(server,{
     cors:{
-        origin:"https://just-chat-frontend.vercel.app"
+        origin:"*"
     }
 })
 
