@@ -42,6 +42,10 @@ const io = new Server(server,{
 
 let users = [];
 
+app.get("/", async(req,res)=>{
+  res.status(200).send("backend working properly")
+})
+
 const addUser=(userId,socketId)=>{
   if(userId,socketId){
     !users.some(user=>user.userId===userId) && users.push({userId,socketId})
