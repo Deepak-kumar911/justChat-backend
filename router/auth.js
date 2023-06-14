@@ -16,7 +16,6 @@ const bcrypt = require('bcrypt');
 //   const upload = multer({ storage: storage })
 
 router.post("/register", async (req, res) => {
-    console.log(req.body,"req");
     const username = await User.findOne({ username: req.body.username });
     if (username) return res.status(400).send("username must be unique");
 
@@ -39,7 +38,7 @@ router.post("/register", async (req, res) => {
 
     } catch (err) {
         console.log(err);
-        res.status(500).send(err)
+        res.status(500).json(err)
     }
 });
 

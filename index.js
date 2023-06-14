@@ -22,7 +22,7 @@ const io = new Server(server,{
     // origin:"https://just-chat-frontend.vercel.app",
     // origin:"http://localhost:5173",
     origin:"*",
-    methods:['GET','POST'],
+    methods:['GET','POST','PUT','DELETE','OPTION'],
   },
 });
 
