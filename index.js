@@ -12,23 +12,22 @@ const message = require('./router/message');
 const http = require('http')
 const {Server} = require('socket.io');
 const path = require('path');
-
 require('dotenv').config()
 
 
+//socket connection
+const server = http.createServer(app);
+const io = new Server(server)
+
+//database connection
 mongoose.set('strictQuery',false)
 mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser:true,useUnifiedTopology:true})
 .then(()=>console.log("successfully connected"))
 .catch(err=>console.error(err))
 
 //middleware
+app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(function(req,res,next){
-  res.header("Access-Control-Allow-Origin","*");
-  res.header("Access-Control-Allow-Headers","Origin x-auth-token access-control-expose-headers Content-Type, Accept");
-  next()
-})
-app.use(cors({origin:"*"}))
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 // app.use(express.static('public'));
@@ -41,9 +40,6 @@ app.use("/api/auth",auth);
 app.use("/api/conversation",conversation);
 app.use("/api/message",message);
 
-const server = http.createServer(app);
-const io = new Server(server,{cors: {origin: "*",
-}})
 
 let users = [];
 
