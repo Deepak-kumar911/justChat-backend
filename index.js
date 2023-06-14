@@ -30,7 +30,7 @@ app.use(cors({origin:"*"}))
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(express.static('public'));
-// app.use('/upload',express.static('upload'));
+app.use('/uploads',express.static('uploads'));
 // app.use(helmet());
 // app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 // app.use(morgan("common"));
