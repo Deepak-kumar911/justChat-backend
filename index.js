@@ -18,7 +18,7 @@ require('dotenv').config()
 mongoose.set('strictQuery',false)
 mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser:true,useUnifiedTopology:true})
 .then(()=>console.log("successfully connected"))
-.catch(err=>console.log(err))
+.catch(err=>console.error(err))
 
 //middleware
 app.use(function(req,res,next){
