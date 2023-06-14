@@ -11,6 +11,7 @@ const conversation = require('./router/conversation');
 const message = require('./router/message');
 const http = require('http')
 const {Server} = require('socket.io');
+const path = require('path');
 
 require('dotenv').config()
 
@@ -21,6 +22,7 @@ mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser:true,useUnifiedTopolo
 .catch(err=>console.error(err))
 
 //middleware
+app.use(express.static(path.json(__dirname),'public'))
 app.use(function(req,res,next){
   res.header("Access-Control-Allow-Origin","*");
   res.header("Access-Control-Allow-Headers","Origin x-auth-token access-control-expose-headers Content-Type, Accept");
@@ -29,8 +31,8 @@ app.use(function(req,res,next){
 app.use(cors({origin:"*"}))
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
-app.use(express.static('public'));
-app.use('/uploads',express.static('uploads'));
+// app.use(express.static('public'));
+// app.use('/uploads',express.static('uploads'));
 // app.use(helmet());
 // app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 // app.use(morgan("common"));
