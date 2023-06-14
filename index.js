@@ -17,7 +17,12 @@ require('dotenv').config()
 
 //socket connection
 const server = http.createServer(app);
-const io = new Server(server)
+const io = new Server(server,{
+  cors:{
+    origin:"https://just-chat-frontend.vercel.app",
+    methods:['GET','POST'],
+  },
+});
 
 //database connection
 mongoose.set('strictQuery',false)
