@@ -21,11 +21,16 @@ mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser:true,useUnifiedTopolo
 .catch(err=>console.log(err))
 
 //middleware
+app.use(function(req,res,next){
+  res.header("Access-Control-Allow-Origin","*");
+  res.header("Access-Control-Allow-Headers","Origin x-auth-token access-control-expose-headers Content-Type, Accept");
+  next()
+})
+app.use(cors({origin:"*"}))
+app.use(express.json());
+app.use(express.urlencoded({extended:true}))
 app.use(express.static('public'));
 // app.use('/upload',express.static('upload'));
-app.use(express.json());
-app.use(cors())
-app.use(express.urlencoded({extended:true}))
 // app.use(helmet());
 // app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 // app.use(morgan("common"));
@@ -35,18 +40,8 @@ app.use("/api/conversation",conversation);
 app.use("/api/message",message);
 
 const server = http.createServer(app);
-const io = new Server(server,{cors: {origin: ["*"],
- handlePreflightRequest:(req,res)=>{
-  res.writeHead(200,{
-    "Access-Control-Allow-Origin":"*",
-    "Access-Control-Allow-Method":"GET,POST,DELETE,PUT",
-    "Access-Control-Allow-Headers":"my-custom-header",
-    "Access-Control-Allow-Credentials":true
-  });
-  res.end()
- }
-}
-})
+const io = new Server(server,{cors: {origin: "*",
+}})
 
 let users = [];
 
