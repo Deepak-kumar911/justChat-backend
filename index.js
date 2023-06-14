@@ -19,7 +19,9 @@ require('dotenv').config()
 const server = http.createServer(app);
 const io = new Server(server,{
   cors:{
-    origin:"https://just-chat-frontend.vercel.app",
+    // origin:"https://just-chat-frontend.vercel.app",
+    // origin:"http://localhost:5173",
+    origin:"*",
     methods:['GET','POST'],
   },
 });
