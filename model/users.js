@@ -21,8 +21,8 @@ const userSchema = new mongoose.Schema({
         min:6,
     },
     profilePicture:{
-        type:String,
-        default:""
+        type:Object,
+        required:true
     },
     desc:{
         type:String,

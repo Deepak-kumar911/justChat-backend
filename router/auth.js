@@ -1,21 +1,22 @@
 const router = require('express').Router();
 const User = require('../model/users');
 const bcrypt = require('bcrypt');
-const multer = require('multer');
+// const multer = require('multer');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './public/uploads')
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = `${Date.now()}${file.originalname}` 
-      cb(null, uniqueSuffix)
-    }
-  })
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, './public/uploads')
+//     },
+//     filename: function (req, file, cb) {
+//       const uniqueSuffix = `${Date.now()}${file.originalname}` 
+//       cb(null, uniqueSuffix)
+//     }
+//   })
   
-  const upload = multer({ storage: storage })
+//   const upload = multer({ storage: storage })
 
-router.post("/register", upload.single("avatar"), async (req, res) => {
+router.post("/register", async (req, res) => {
+    console.log(req.body,"req");
     const username = await User.findOne({ username: req.body.username });
     if (username) return res.status(400).send("username must be unique");
 
@@ -27,7 +28,7 @@ router.post("/register", upload.single("avatar"), async (req, res) => {
             email: req.body.email,
             password: req.body.password,
             desc:"Hey, I am using JustChat!",
-            profilePicture: `uploads/${req.file.filename}`
+            profilePicture: req.body.avatar
         })
 
         const salt = await bcrypt.genSalt(10);
@@ -37,6 +38,7 @@ router.post("/register", upload.single("avatar"), async (req, res) => {
         res.header("x-auth-token",token).header("access-control-expose-headers","x-auth-token").status(201).send(token)
 
     } catch (err) {
+        console.log(err);
         res.status(400).send(err)
     }
 });
